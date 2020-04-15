@@ -74,7 +74,7 @@
                 form.append('upload', file.slice(that.start, sendEnd), file.name);
 
                 // http 请求，用formdata
-                ajax({
+                var xhr = ajax({
                     url: '/range',
                     method: 'post',
                     header: requestHeader,
@@ -133,7 +133,16 @@
                         return;
                     }
 
-                })
+                    xhr.upload.addEventListener('progress',function (e) {
+                        var percent = parseInt((e.loaded + that.start) / fileSize * 100, 10);
+                        // 如果格式话之后超过了100%之后，直接变成100%
+                        if (percent > 100) {
+                            percent = 100;
+                        }
+                        that.uploadPercent = percent;
+
+                    })
+                });
             }
 
             _funFileSize(params);
