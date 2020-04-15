@@ -133,6 +133,7 @@
                         return;
                     }
 
+                    // 监听 progress
                     xhr.upload.addEventListener('progress',function (e) {
                         var percent = parseInt((e.loaded + that.start) / fileSize * 100, 10);
                         // 如果格式话之后超过了100%之后，直接变成100%
